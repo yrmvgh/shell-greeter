@@ -1,7 +1,7 @@
 #!/bin/bash
 # Licensed under the GPLv3
 NAME="Shell Greeter"
-VERSION="0.5 Beta"
+VERSION="0.9 Beta"
 
 # Dep check
 if [ "$SHELL" = "" ]; then
@@ -36,7 +36,9 @@ fi
 echo "Welcome to $(basename $SHELL)" # Welcome message
 echo "Used Ram: $(free -h | grep Mem: | awk '{ print $3}')" # Used ram in MB/GB
 echo "/: Used $(df -h / | tail -1 | awk '{print $3}') Free: $(df -h /| tail -1 | awk '{print $4}')" # Root disk space
+if [ -e /proc/sys/vm/swappiness ]; then # This file should always exist
 echo "Swappiness: $(cat /proc/sys/vm/swappiness)" # Swappiness
+fi
 echo "UID: $(id -u)" # UID
 echo "User Name: $(id -u -n)" # User Name
 if [ "$DISPLAY" != "" ]; then
