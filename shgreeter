@@ -1,0 +1,47 @@
+#!/bin/bash
+# Licensed under the GPLv3
+NAME="Shell Greeter"
+VERSION="0.5 Beta"
+
+# Dep check
+if [ "$SHELL" = "" ]; then
+echo "SHELL is not set"
+echo "Something is wrong with your shell"
+exit 1; fi
+
+if ! command -V basename >/dev/null 2>/dev/null; then
+echo "Basename does not exist"
+exit 1; fi
+
+if ! command -V df >/dev/null 2>/dev/null; then
+echo "Df does not exist"
+exit 1; fi
+
+# Argument check
+if [ "$1" = "--clear" ]; then
+clear
+elif [ "$1" == "-c" ]; then
+clear; fi
+
+if [ "$1" = "--version" ]; then
+echo "$NAME: $VERSION"
+exit 0
+elif [ "$1" = "--help" ] ; then
+echo "$NAME: $VERSION [--version] [--help]"
+echo "-c/--clear: Clears the screen before starting the program"
+exit 0
+fi
+
+# Start echoing things
+echo "Welcome to $(basename $SHELL)" # Welcome message
+echo "Used Ram: $(free -h | grep Mem: | awk '{ print $3}')" # Used ram in MB/GB
+echo "/: Used $(df -h / | tail -1 | awk '{print $3}') Free: $(df -h /| tail -1 | awk '{print $4}')" # Root disk space
+echo "Swappiness: $(cat /proc/sys/vm/swappiness)" # Swappiness
+echo "UID: $(id -u)" # UID
+echo "User Name: $(id -u -n)" # User Name
+if [ "$DISPLAY" != "" ]; then
+echo "Xorg Display: $DISPLAY" # Xorg Display
+fi
+if [ "$EDITOR" != "" ]; then
+echo "Editor: $EDITOR" # Editor
+fi
