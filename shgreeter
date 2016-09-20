@@ -1,5 +1,8 @@
 #!/bin/bash
+# $NAME: $VERSION
 # Licensed under the GPLv3
+
+# Sets NAME/VERSION (Makes it easier on me to make)
 NAME="Shell Greeter"
 VERSION="0.9 Beta"
 
@@ -17,33 +20,30 @@ if ! command -V df >/dev/null 2>/dev/null; then
 echo "Df does not exist"
 exit 1; fi
 
-# Argument check
+# Argument check(s)
 if [ "$1" = "--clear" ]; then
 clear
 elif [ "$1" == "-c" ]; then
 clear; fi
 
 if [ "$1" = "--version" ]; then
+# Echo version
 echo "$NAME: $VERSION"
 exit 0
 elif [ "$1" = "--help" ] ; then
 echo "$NAME: $VERSION [--version] [--help]"
 echo "-c/--clear: Clears the screen before starting the program"
-exit 0
-fi
+exit 0; fi
 
 # Start echoing things
 echo "Welcome to $(basename $SHELL)" # Welcome message
 echo "Used Ram: $(free -h | grep Mem: | awk '{ print $3}')" # Used ram in MB/GB
 echo "/: Used $(df -h / | tail -1 | awk '{print $3}') Free: $(df -h /| tail -1 | awk '{print $4}')" # Root disk space
 if [ -e /proc/sys/vm/swappiness ]; then # This file should always exist
-echo "Swappiness: $(cat /proc/sys/vm/swappiness)" # Swappiness
-fi
+echo "Swappiness: $(cat /proc/sys/vm/swappiness)"; fi # Swappiness
 echo "UID: $(id -u)" # UID
 echo "User Name: $(id -u -n)" # User Name
 if [ "$DISPLAY" != "" ]; then
-echo "Xorg Display: $DISPLAY" # Xorg Display
-fi
+echo "Xorg Display: $DISPLAY"; fi # Xorg Display
 if [ "$EDITOR" != "" ]; then
-echo "Editor: $EDITOR" # Editor
-fi
+echo "Editor: $EDITOR"; fi  # Editor
